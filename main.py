@@ -2,6 +2,11 @@
 # 프로그램 작성시에는 <pythonfile>.py
 # python3 <pythonfile>.py
 # streamlit run <streamlitapp>.py 
+<<<<<<< HEAD
+# code from the current version of main.py
+=======
+# code from the version of main.py in the remote repository
+>>>>>>> e7796331f5507e738d956e443784b7af3096bb0b
 
 import streamlit as st
 import pandas as pd

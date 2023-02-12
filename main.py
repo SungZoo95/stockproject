@@ -1,12 +1,9 @@
 # <pythonfile>.ipynb notebook
 # 프로그램 작성시에는 <pythonfile>.py
 # python3 <pythonfile>.py
-# streamlit run <streamlitapp>.py 
-<<<<<<< HEAD
-# code from the current version of main.py
-=======
-# code from the version of main.py in the remote repository
->>>>>>> e7796331f5507e738d956e443784b7af3096bb0b
+# streamlit run <streamlitapp>.py
+
+
 
 import streamlit as st
 import pandas as pd
@@ -16,10 +13,13 @@ import numpy as np
 
 def text():
     #Mark Down
-    st.markdown('Markdown')
-    st.markdown('Streamlit is **_really_ cool**.')
-    st.markdown("This text is :red[colored red], and this is **:blue[colored]** and bold.")
-    st.markdown(":green[$\sqrt{x^2+y^2}=1$] is a Pythagorean identity. :pencil:")
+    st.markdown('------')
+    st.markdown('네이버 증권에서 제공하는 종목 토론실에서 인기 검색종목 30개 기업을 뽑았습니다.')
+    st.markdown('뽑은 30개 기업들에 대한 종목 토론실을 크롤링하여 댓글들의 데이터를 뽑았습니다.')
+    st.markdown("뽑은 데이터들로 토큰화 작업을 진행 후 감정분석 작업을 실시하였습니다.")
+    st.markdown("- 긍정 : 1")
+    st.markdown("- 중립 : 0")
+    st.markdown("- 부정 : -1")
 
 def dataframe1():
     df = pd.DataFrame(
@@ -38,7 +38,7 @@ def temp_map():
 
 
 def main():
-    st.title("First_APP")
+    st.title("자연어 처리/추천시스템 프로젝트:blue_book:")
 
     #st.sidebar.write('''
     ## lab1
@@ -47,11 +47,8 @@ def main():
     #- lab4
     #''')
 
-    df = pd.DataFrame({
-        "first_col":[1, 2, 3, 4],
-        "second_col":[10, 20, 30, 40]
-    })
-    st.write(df)
+    code = '''이번 프로젝트를 통해 네이버 종목토론실의 댓글을 통해 감정 분석을 사용해 \n다음날의 주가 상승률을 예측하고 크게는 추천해보는 프로젝트를 진행했습니다.'''
+    st.code(code, language='python')
 
     text()
 

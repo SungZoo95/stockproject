@@ -2,39 +2,71 @@
 # 프로그램 작성시에는 <pythonfile>.py
 # python3 <pythonfile>.py
 # streamlit run <streamlitapp>.py
-
+# pip install pandas
+# conda install pandas
 
 
 import streamlit as st
 import pandas as pd
 import numpy as np
-# pip install pandas
-# conda install pandas
+import datetime
+from PIL import Image
+import matplotlib.pyplot as plt
+
 
 def text():
     #Mark Down
-    st.markdown('------')
     st.markdown('네이버 증권에서 제공하는 종목 토론실에서 인기 검색종목 30개 기업을 뽑았습니다.')
     st.markdown('뽑은 30개 기업들에 대한 종목 토론실을 크롤링하여 댓글들의 데이터를 뽑았습니다.')
-    st.markdown("뽑은 데이터들로 토큰화 작업을 진행 후 감정분석 작업을 실시하였습니다.")
-    st.markdown("- 긍정 : 1")
-    st.markdown("- 중립 : 0")
-    st.markdown("- 부정 : -1")
-
+    st.markdown("뽑은 데이터들로 토큰화 작업을 진행 후 감성분석 작업을 실시하였습니다.")
+    st.markdown("- 긍정 : 1:grinning:")
+    st.markdown("- 중립 : 0:zipper_mouth_face:")
+    st.markdown("- 부정 : -1:angry:")
+    st.markdown("이모티콘은 댓글 성향에 따른 감성상태를 나타냅니다.")
+    
+    
 def dataframe1():
-    df = pd.DataFrame(
-    np.random.randn(50, 20),
-    columns=('col %d' % i for i in range(20)))
+    df = pd.read_csv('name_code_0206.csv', dtype=str)
     st.dataframe(df) # Same as st.write(df)
 
-def temp_map():
-    # 온도 출력
-    st.metric(label="Temperature", value="70 °F", delta="1.2 °F")
-    # 위도 경도에 맞는 지도를 출력
-    df = pd.DataFrame(
-    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
-    columns=['lat', 'lon'])
-    st.map(df)
+
+def stock_date_input():
+    df_1 = pd.read_csv('name_code_0206.csv', dtype=str)
+    df_2 = pd.read_csv('naver60pages.csv')
+    df_2.drop(['Unnamed: 0'],axis=1,inplace=True)
+    
+    da = st.date_input(
+        "날짜를 선택하세요",
+        datetime.date(2023,2,8), max_value=datetime.date(2023,2,10), min_value=datetime.date(2023,1,29))
+    st.write('선택한 날짜는:', da)
+    
+    stock = st.selectbox(
+        '기업을 선택하세요',
+        (df_1["종목명"]))
+    st.write('선택한 기업은:',stock)
+    
+    df_3 = df_2[(df_2["기업명"]==f'{stock}') & (df_2["날짜"]==f'{da}')]
+    shape = df_3.shape[0]
+    st.dataframe(df_3)
+    st.write(f"총 {shape}개의 행이 출력되었습니다")
+
+def dataframe2():
+    df = pd.read_csv('samsung.csv')
+    df.drop(["Unnamed: 0"],axis=1, inplace=True)
+    st.dataframe(df)
+
+def dataframe2_add():
+    df = pd.read_csv('samsung.csv')
+    df.drop(["Unnamed: 0"],axis=1, inplace=True)
+    check = st.selectbox(
+        '원하시는 정보를 선택하세요',
+        (df.columns))
+    st.dataframe(df[["날짜",f"{check}"]])
+    
+#def image():
+#    
+#    image = Image.open('heechan.jpg')
+#    st.image(image, caption='Sunrise by the mountains')
 
 
 def main():
@@ -47,15 +79,25 @@ def main():
     #- lab4
     #''')
 
-    code = '''이번 프로젝트를 통해 네이버 종목토론실의 댓글을 통해 감정 분석을 사용해 \n다음날의 주가 상승률을 예측하고 크게는 추천해보는 프로젝트를 진행했습니다.'''
+    code = '''이번 프로젝트를 통해 네이버 종목토론실의 댓글을 통해 감성 분석을 사용해 \n다음날의 주가 상승률을 예측하고 크게는 추천해보는 프로젝트를 진행했습니다.'''
     st.code(code, language='python')
-
-    text()
-
-    if st.checkbox("show dataframe"):
+    st.markdown('------')
+    
+    if st.checkbox("30개 기업확인"):
         dataframe1()
+    
+    text()
+    st.markdown('------') 
+    
+    st.header('날짜/기업별 댓글 조회')
+    stock_date_input()
+    st.markdown('------')
 
-    temp_map()
-
+    st.header('기업정보')
+    if st.checkbox("기업정보"):
+        dataframe2()
+    dataframe2_add()   
+        
+    
 if __name__ == "__main__":
     main()

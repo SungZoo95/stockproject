@@ -50,18 +50,27 @@ def stock_date_input():
     st.write(f"총 {shape}개의 행이 출력되었습니다")
 
 def dataframe2():
-    df = pd.read_csv('samsung.csv')
+    df = pd.read_csv('top30stock.csv')
     df.drop(["Unnamed: 0"],axis=1, inplace=True)
     st.dataframe(df)
 
 def dataframe2_add():
-    df = pd.read_csv('samsung.csv')
-    df.drop(["Unnamed: 0"],axis=1, inplace=True)
-    check = st.selectbox(
-        '원하시는 정보를 선택하세요',
-        (df.columns[1:]))
-    st.dataframe(df[["날짜",f"{check}"]])
-
+    key = "unique_key"
+    df_1 = pd.read_csv('name_code_0206.csv', dtype=str)
+    stock = st.selectbox(
+        '기업을 선택하세요',
+        (df_1["종목명"]),key=key)
+    
+    df_2 = pd.read_csv('top30stock.csv')
+    df_2.drop(["Unnamed: 0"],axis=1, inplace=True)
+    check = st.multiselect(
+        '원하시는 정보를 선택하세요',(df_2.columns[:]))
+    st.dataframe(df_2[df_2["종목명"]==stock][check])
+    df_3 = df_2[df_2["종목명"]==stock][check].shape[0]
+    st.write(f"총 {df_3}개의 행이 출력되었습니다")
+   
+    
+    
 
 def download(file):
     with open(file, 'r') as file:
@@ -107,7 +116,7 @@ def main():
     st.markdown('------')
 
     st.header('기업정보')
-    download('samsung.csv')
+    download('top30stock.csv')
     st.markdown('삼성 주식정보 다운로드')
     if st.checkbox("기업정보"):
         dataframe2()

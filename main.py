@@ -89,7 +89,6 @@ def makegraph():
     st.pyplot(fig)
    
   
-
 def download(file):
     with open(file, 'r') as file:
         csv_data = file.read()

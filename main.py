@@ -5,14 +5,12 @@
 # pip install pandas
 # conda install pandas
 
-!pip install matplotlib
 import streamlit as st
 import pandas as pd
 import numpy as np
 import datetime
 from PIL import Image
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 
 def text():

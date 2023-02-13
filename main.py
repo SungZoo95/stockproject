@@ -61,7 +61,18 @@ def dataframe2_add():
         '원하시는 정보를 선택하세요',
         (df.columns[1:]))
     st.dataframe(df[["날짜",f"{check}"]])
-    
+
+
+def download(file):
+    with open(file, 'r') as file:
+        csv_data = file.read()
+    st.download_button(
+        label="Download File",
+        data=csv_data,
+        file_name='name_code_0206.csv',
+        mime='text/csv',
+    )
+
 #def image():
 #    
 #    image = Image.open('heechan.jpg')
@@ -82,6 +93,9 @@ def main():
     st.code(code, language='python')
     st.markdown('------')
     
+    download('name_code_0206.csv')
+    st.markdown('30개 기업코드 다운로드')
+    
     if st.checkbox("30개 기업확인"):
         dataframe1()
     
@@ -93,10 +107,14 @@ def main():
     st.markdown('------')
 
     st.header('기업정보')
+    download('samsung.csv')
+    st.markdown('삼성 주식정보 다운로드')
     if st.checkbox("기업정보"):
         dataframe2()
     dataframe2_add()   
-        
+    st.markdown('-----')
+    
+   
     
 if __name__ == "__main__":
     main()

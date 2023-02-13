@@ -11,6 +11,8 @@ import pandas as pd
 import numpy as np
 import datetime
 from PIL import Image
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 def text():
@@ -69,8 +71,26 @@ def dataframe2_add():
     df_3 = df_2[df_2["종목명"]==stock][check].shape[0]
     st.write(f"총 {df_3}개의 행이 출력되었습니다")
    
-    
-    
+def makegraph():
+    df_1 = pd.read_csv('name_code_0206.csv')
+    df_2 = pd.read_csv('top30stock.csv')
+    key = "key_1"
+    st.subheader('기업별 종가그래프')
+    option = st.selectbox(
+        '기업을 선택하세요', (df_1["종목명"]),key=key)
+
+    stock_data = df_2[(df_2['종목명']==option)][["날짜","종가"]]
+    stock_data["날짜"] = pd.to_datetime(stock_data["날짜"])
+    stock_data["종가"] = stock_data["종가"].str.replace(',',"")
+    stock_data["종가"] = stock_data["종가"].astype(np.int64)
+    x = range(len(stock_data["날짜"]))
+    fig = plt.figure()
+    plt.bar(x=x, height=stock_data["종가"], width=0.5, color='gray')
+    plt.xticks(x, stock_data["날짜"].dt.strftime("%Y-%m-%d"),rotation=90)
+    plt.ylim(min(stock_data["종가"]-10000), max(stock_data["종가"]+3000))
+    st.pyplot(fig)
+   
+  
 
 def download(file):
     with open(file, 'r') as file:
@@ -122,7 +142,7 @@ def main():
         dataframe2()
     dataframe2_add()   
     st.markdown('-----')
-    
+    makegraph()
    
     
 if __name__ == "__main__":

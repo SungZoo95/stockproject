@@ -32,12 +32,11 @@ def dataframe1():
 def stock_date_input():
     df_1 = pd.read_csv('name_code_0206.csv', dtype=str)
     df_2 = pd.read_csv('naver_up_down_end.csv')
-    df_2.reset_index(inplace=True)
     df_2.drop(['Unnamed: 0'],axis=1,inplace=True)
     
     da = st.date_input(
         "날짜를 선택하세요",
-        datetime.date(2023,2,8), max_value=datetime.date(2023,2,10), min_value=datetime.date(2023,1,29))
+        datetime.date(2023,2,9), max_value=datetime.date(2023,2,10), min_value=datetime.date(2023,1,29))
     st.write('선택한 날짜는:', da)
     
     stock = st.selectbox(

@@ -96,8 +96,7 @@ def download(file):
         label="Download File",
         data=csv_data,
         file_name='name_code_0206.csv',
-        mime='text/csv',
-    )
+        mime='text/csv',)
 
 #def image():
 #    

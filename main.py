@@ -11,7 +11,6 @@ import pandas as pd
 import numpy as np
 import datetime
 from PIL import Image
-import matplotlib.pyplot as plt
 
 
 def text():
@@ -60,7 +59,7 @@ def dataframe2_add():
     df.drop(["Unnamed: 0"],axis=1, inplace=True)
     check = st.selectbox(
         '원하시는 정보를 선택하세요',
-        (df.columns))
+        (df.columns[1:]))
     st.dataframe(df[["날짜",f"{check}"]])
     
 #def image():

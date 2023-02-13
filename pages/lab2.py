@@ -6,3 +6,10 @@ start_time = st.slider(
     format="MM/DD/YY - hh:mm")
 
 st.write("Start time:", start_time)
+
+uploaded_file = st.file_uploader(
+    "Choose your database", accept_multiple_files=False)
+if uploaded_file is not None:
+    file_name = uploaded_file
+else:
+    file_name = "name_code_0206.csv"

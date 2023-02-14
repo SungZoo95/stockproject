@@ -36,7 +36,7 @@ def stock_date_input():
     
     da = st.date_input(
         "날짜를 선택하세요",
-        datetime.date(2023,2,9), max_value=datetime.date(2023,2,10), min_value=datetime.date(2023,1,29))
+        datetime.date(2023,2,9), max_value=datetime.date(2023,2,10), min_value=datetime.date(2023,2,1))
     st.write('선택한 날짜는:', da)
     
     stock = st.selectbox(
@@ -83,7 +83,9 @@ def makegraph():
     stock_data["종가"] = stock_data["종가"].astype(np.int64)
     x = range(len(stock_data["날짜"]))
     fig = plt.figure()
+    
     plt.bar(x=x, height=stock_data["종가"], width=0.5, color='gray')
+    plt.plot(x, stock_data["종가"], color='purple',marker="o")
     plt.xticks(x, stock_data["날짜"].dt.strftime("%Y-%m-%d"),rotation=90)
     plt.ylim(min(stock_data["종가"]-10000), max(stock_data["종가"]+3000))
     st.pyplot(fig)
@@ -128,7 +130,7 @@ def token():
     else : 
         st.write('대기 중')
     
-def token2():
+def token2(): 
     df_1 = pd.read_csv('name_code_0206.csv')
     key = 'shineekey'
     option = st.selectbox("기업을 선택하세요", (df_1["종목명"]),key=key)

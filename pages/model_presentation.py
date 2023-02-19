@@ -6,6 +6,13 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import time
 
+
+def implement_model():
+    for i in range(10):
+        time.sleep(0.01)
+        
+
+
 def filterdata():
     data = pd.read_csv("mergescoredata.csv").drop(["Unnamed: 0"],axis=1)
     data = data.rename(columns={"긍정1 / 부정2 / 쓸데없는거3?_x": "긍정1,부정2"})
@@ -26,6 +33,18 @@ def stock_data_input():
         '기업을 선택하세요',
         (data["기업명"].unique()))
     # st.write('선택한 기업은:',stock)
+    
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    status_text.text('모델에서 예측데이터 가져오는 중')
+
+    for i in range(100):
+        progress_bar.progress(i + 1)
+        if (i + 1) % 10 == 0:
+            status_text.text(f'로딩중 : {i + 1}%')
+        implement_model()
+
+    status_text.text('데이터 로딩 완료')
     
     result = data[(data["기업명"]==f'{stock}') & (data["날짜"]==f'{da}')]
     result.reset_index(inplace=True)
@@ -156,25 +175,11 @@ def stock_data_input():
     
 
 
-def implement_model():
-    for i in range(10):
-        time.sleep(0.01)
-        
-progress_bar = st.progress(0)
-status_text = st.empty()
-status_text.text('모델에서 예측데이터 가져오는 중')
 
-for i in range(100):
-    progress_bar.progress(i + 1)
-    if (i + 1) % 10 == 0:
-        status_text.text(f'로딩중 : {i + 1}%')
-    implement_model()
-
-status_text.text('데이터 로딩 완료')
 
 
 
 st.title("모델 발표")
 stock_data_input()
-implement_model()
+
 

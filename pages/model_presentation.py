@@ -4,7 +4,7 @@ import numpy as np
 import datetime
 from PIL import Image
 import matplotlib.pyplot as plt
-
+import time
 
 def filterdata():
     data = pd.read_csv("mergescoredata.csv").drop(["Unnamed: 0"],axis=1)
@@ -154,6 +154,27 @@ def stock_data_input():
     ## Display plot in Streamlit
     #st.pyplot(fig)
     
-  
+
+
+def implement_model():
+    for i in range(10):
+        time.sleep(0.01)
+        
+progress_bar = st.progress(0)
+status_text = st.empty()
+status_text.text('모델에서 예측데이터 가져오는 중')
+
+for i in range(100):
+    progress_bar.progress(i + 1)
+    if (i + 1) % 10 == 0:
+        status_text.text(f'로딩중 : {i + 1}%')
+    implement_model()
+
+status_text.text('데이터 로딩 완료')
+
+
+
 st.title("모델 발표")
 stock_data_input()
+implement_model()
+

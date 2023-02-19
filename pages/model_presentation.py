@@ -154,6 +154,6 @@ def stock_data_input():
     ## Display plot in Streamlit
     #st.pyplot(fig)
     
-def main():  
+  
     st.title("모델 발표")
     stock_data_input()

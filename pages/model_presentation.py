@@ -155,5 +155,5 @@ def stock_data_input():
     #st.pyplot(fig)
     
   
-    st.title("모델 발표")
-    stock_data_input()
+st.title("모델 발표")
+stock_data_input()

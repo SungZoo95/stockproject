@@ -91,6 +91,7 @@ def stock_data_input():
     group["기업명"] = stock
     group['up_down'] = group['score'].apply(lambda x: 100 if x > 50 else -100)
     group.reset_index(inplace=True)
+    group.loc[group["up_down"] < 0, "up_down"] = 0
 
     
     graph_1 = pd.read_csv('30stock.csv')
@@ -99,6 +100,7 @@ def stock_data_input():
     zerone = zerone[zerone["종목명"]==stock]
     zerone = zerone.reset_index()
     zerone.loc[zerone["up_down"] >= 0, "up_down"] = 100
+    zerone.loc[zerone["up_down"] < 0, "up_down"] = 0
     zerone.rename(columns={"종목명": "기업명"}, inplace=True)
     zerone["날짜"] = pd.to_datetime(zerone["날짜"], format="%Y.%m.%d").dt.strftime("%Y-%m-%d")
     
@@ -123,26 +125,34 @@ def stock_data_input():
     zerone[["날짜", "기업명", "종가","up_down"]]
     st.write("실제 종가의 전날 기준으로 상승시 +100 하락시 -100으로 표현하였다.")
     
-    
-    # Find intersection points
-    intersections = pd.merge(group, zerone, on="날짜")
-    x_intersections = intersections["날짜"].values
-    y_intersections = intersections["up_down_x"].values
-
+    # Create plot
     fig, ax = plt.subplots()
-    ax.plot(group["날짜"], group["up_down"], label="Predict")
-    ax.plot(zerone["날짜"], zerone["up_down"], label="Real result")
-        
-    #ax.scatter(x_intersections, y_intersections, color='red', marker='o')
-    ax.legend(loc='best')
+    ax.plot(group["날짜"], group["up_down"], label="Group")
+    ax.plot(zerone["날짜"], zerone["up_down"], label="Zerone")
+    ax.legend(loc="best")
     plt.xticks(rotation=90)
-    plt.ylim(-120, 150)
-    #ax.set_xlabel("날짜")
-    #ax.set_ylabel("up_down")
-    #ax.set_title(f"{stock} 주식 변동 예측")
-
+    plt.ylim(-10, 150)
     # Display plot in Streamlit
     st.pyplot(fig)
+    # Find intersection points
+    #intersections = pd.merge(group, zerone, on="날짜")
+    #x_intersections = intersections["날짜"].values
+    #y_intersections = intersections["up_down_x"].values
+
+    #fig, ax = plt.subplots()
+    #ax.plot(group["날짜"], group["up_down"], label="Predict")
+    #ax.plot(zerone["날짜"], zerone["up_down"], label="Real result")
+    #    
+    ##ax.scatter(x_intersections, y_intersections, color='red', marker='o')
+    #ax.legend(loc='best')
+    #plt.xticks(rotation=90)
+    #plt.ylim(-120, 150)
+    ##ax.set_xlabel("날짜")
+    ##ax.set_ylabel("up_down")
+    ##ax.set_title(f"{stock} 주식 변동 예측")
+
+    ## Display plot in Streamlit
+    #st.pyplot(fig)
     
     
 st.title("모델 발표")

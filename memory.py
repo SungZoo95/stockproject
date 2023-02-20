@@ -42,3 +42,4 @@ st.title("Top30일 주가 예측 모델")
 st.markdown("----")
 
 makemodel()
+

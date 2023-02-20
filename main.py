@@ -120,13 +120,15 @@ def token():
     st.code(code,language='python')
     st.markdown('작업 후')
     if st.button('정제화'):
-        df_1['정제된 댓글'] = df_1['제목+내용'].str.replace('\\[삭제된 게시물의 답글\\]',' ')
-        df_1['정제된 댓글'] = df_1['정제된 댓글'].str.replace('제목+내용:',' ')
-        df_1['정제된 댓글'] = df_1['정제된 댓글'].str.replace('[^가-힣]',' ').str.replace(' +',' ').str.strip()
-        df_1 = df_1[df_1['정제된 댓글'] != '']
-        df_1 = df_1.reset_index(drop=True)
-        df_1[["날짜","기업명","정제된 댓글","상승_하락"]]
-        st.write('실행 완료')
+        #df_1['정제된 댓글'] = df_1['제목+내용'].str.replace('\\[삭제된 게시물의 답글\\]',' ')
+        #df_1['정제된 댓글'] = df_1['정제된 댓글'].str.replace('제목+내용:',' ')
+        #df_1['정제된 댓글'] = df_1['정제된 댓글'].str.replace('[^가-힣]',' ').str.replace(' +',' ').str.strip()
+        #df_1 = df_1[df_1['정제된 댓글'] != '']
+        #df_1 = df_1.reset_index(drop=True)
+        #df_1[["날짜","기업명","정제된 댓글","상승_하락"]]
+        #st.write('실행 완료')
+        filter = pd.read_csv("filter0220.csv").drop(["Unnamed: 0"],axis=1)
+        filter
     else : 
         st.write('대기 중')
     
@@ -268,6 +270,7 @@ def main():
     konlpy()
     token2()
     st.markdown('토큰화 작업과 라벨링작업까지 완료')
+    
     
 if __name__ == "__main__":
     main()
